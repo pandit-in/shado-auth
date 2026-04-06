@@ -20,9 +20,9 @@ export default function UserButton() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger >
+      <DropdownMenuTrigger>
         {isPending ? (
-          <Skeleton className="h-8 w-8 rounded-none animate-pulse" />
+          <Skeleton className="h-8 w-8 rounded-full animate-pulse" />
         ) : (
           data?.user && (
             <Avatar className="cursor-pointer">
@@ -33,9 +33,10 @@ export default function UserButton() {
         )}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+
           <DropdownMenuItem onClick={() => router.push("/account")}>
             Account
           </DropdownMenuItem>

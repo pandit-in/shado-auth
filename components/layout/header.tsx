@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import Image from "next/image";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import UserButton from "./utils/user-button";
+import UserButton from "../utils/user-button";
+import { DropdownMenu, DropdownMenuLabel } from "../ui/dropdown-menu";
+import Organizations from "../utils/organizations";
 
 export default async function Header() {
   const session = await auth.api.getSession({
@@ -18,13 +20,16 @@ export default async function Header() {
         </Link>
         <nav className="flex items-center gap-2">
           {session?.user ? (
-            <UserButton />
+            <div className="flex items-center gap-2">
+              <Organizations/>
+              <UserButton />
+            </div>
           ) : (
             <div className="flex items-center gap-2">
               <Button variant={"outline"}>
                 <Link href={"/sign-in"}>Sign In</Link>
               </Button>
-              <Button >
+              <Button>
                 <Link href={"/sign-up"}>Get Started</Link>
               </Button>
             </div>
