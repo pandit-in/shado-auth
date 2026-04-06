@@ -1,24 +1,40 @@
 "use client";
 
+import { user } from "@/auth-schema";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { authClient } from "@/lib/auth-client";
+import { getUsers } from "@/app/actions";
 import Link from "next/link";
-import {FaGithub} from "react-icons/fa"
+import { useEffect, useState } from "react";
+import { FaGithub } from "react-icons/fa";
 
 export default function Home() {
-  const {data: session} = authClient.useSession()
+  const [users, setUsers] = useState<(typeof user.$inferSelect)[]>([]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const users = await getUsers();
+        setUsers(users);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUsers();
+  }, []);
+  const { data: session } = authClient.useSession();
   return (
-    <div className="h-[calc(100vh-2rem)] flex items-center justify-center">
+    <div className="items-center justify-center">
       <div className="container">
-        <h1 className="text-5xl text-center font-semibold">
+        <h1 className="mt-40 text-7xl font-bold tracking-tight">
           Next.js Authentication, <br />
           <span>Done Right.</span>
         </h1>
-        <p className="text-center mt-6 text-muted-foreground">
+        <p className="text-muted-foreground mt-6">
           A production-ready authentication starter using Better Auth, Drizzle,
           Shadcn
         </p>
-        <div className="flex justify-center items-center mt-6 gap-4">
+        <div className="mt-6 flex items-center gap-4">
           <Button size={"lg"}>
             {session?.user ? (
               <Link href={"/dashboard"}>Dashboard</Link>
@@ -40,6 +56,16 @@ export default function Home() {
             GitHub
           </Button>
         </div>
+        {users.map((user) => (
+          <div key={user.id} className="mt-14 grid grid-cols-3 gap-4">
+            <Card>
+              <CardContent>
+                <CardTitle>{user.name}</CardTitle>
+                <CardTitle>{user.email}</CardTitle>
+              </CardContent>
+            </Card>
+          </div>
+        ))}
       </div>
     </div>
   );

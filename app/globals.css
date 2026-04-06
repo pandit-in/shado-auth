@@ -122,7 +122,7 @@
 }
 
 .container {
-  @apply mx-auto max-w-5xl p-4;
+  @apply mx-auto max-w-4xl p-4;
 }
 
 @layer base {

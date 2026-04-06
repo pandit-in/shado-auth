@@ -1,7 +1,5 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
 import * as schema from "../db/schema";
 import { nextCookies } from "better-auth/next-js";
 import {
@@ -11,12 +9,9 @@ import {
   lastLoginMethod,
 } from "better-auth/plugins";
 import { Resend } from "resend";
+import { db } from "@/db";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-const db = drizzle(new Pool({ connectionString: process.env.DATABASE_URL }), {
-  schema,
-});
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, { provider: "pg", schema }),
