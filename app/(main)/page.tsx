@@ -2,12 +2,18 @@
 
 import { user } from "@/auth-schema";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { authClient } from "@/lib/auth-client";
 import { getUsers } from "@/app/actions";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Home() {
   const [users, setUsers] = useState<(typeof user.$inferSelect)[]>([]);
@@ -59,9 +65,15 @@ export default function Home() {
         {users.map((user) => (
           <div key={user.id} className="mt-14 grid grid-cols-3 gap-4">
             <Card>
-              <CardContent>
-                <CardTitle>{user.name}</CardTitle>
-                <CardTitle>{user.email}</CardTitle>
+              <CardContent className="flex items-center gap-4">
+                <Avatar>
+                  <AvatarImage src={user.image || ""} />
+                  <AvatarFallback>{user.name}</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col">
+                  <CardTitle>{user.name}</CardTitle>
+                  <CardDescription>{user.email}</CardDescription>
+                </div>
               </CardContent>
             </Card>
           </div>
