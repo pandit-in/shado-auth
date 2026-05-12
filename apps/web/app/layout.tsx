@@ -36,7 +36,6 @@ export default function RootLayout({
       className={cn("font-sans", geist.variable)}
     >
       <body>
-        <SpeedInsights />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
